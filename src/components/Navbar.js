@@ -1,33 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useUser } from "./UserContext"; // Import your user context
-import "./Navbar.css"; // Import the CSS file
+import { useUser } from "./UserContext";
+import "./Navbar.css";
 
 function Navbar() {
-  const { state } = useUser(); // Get user state
+  const { state } = useUser();
 
-  // Handle user logout
   const handleLogout = () => {
-    // Call the logout function (if available in your API) and perform any necessary actions
-    // Example:
-    // JoblyApi.logout().then(() => {
-    //   // Redirect to the login page or perform other actions
-    //   history.push('/login');
-    // });
+    // Handle user logout here
   };
 
-  // Render login, signup, or username and logout links based on authentication status
-  const authLinks = state.isAuthenticated ? (
-    <>
-      <p>Welcome, {state.user.username}!</p>
-      <button onClick={handleLogout}>Logout</button>
-    </>
-  ) : (
-    <>
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Signup</Link>
-    </>
-  );
+  let authLinks;
+
+  if (state && state.isAuthenticated && state.user) {
+    authLinks = (
+      <>
+        <p>Welcome, {state.user.username}!</p>
+        <button onClick={handleLogout}>Logout</button>
+      </>
+    );
+  } else {
+    authLinks = (
+      <>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Signup</Link>
+      </>
+    );
+  }
 
   return (
     <header>
