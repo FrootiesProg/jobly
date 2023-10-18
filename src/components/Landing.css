@@ -1,0 +1,30 @@
+.landing {
+  text-align: center;
+  padding: 20px;
+}
+
+.landing-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.landing-button {
+  display: inline-block;
+  text-align: center;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.login-button {
+  background-color: #007bff;
+}
+
+.signup-button {
+  background-color: #00cc44;
+}

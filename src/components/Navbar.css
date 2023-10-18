@@ -1,0 +1,29 @@
+/* Navbar.css */
+
+header {
+  background-color: #007bff; /* Change the background color to your preference */
+  padding: 10px 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+}
+
+nav li {
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff; /* Text color for the links */
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline; /* Underline links on hover */
+}

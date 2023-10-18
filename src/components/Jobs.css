@@ -1,0 +1,27 @@
+.jobs {
+  padding: 20px;
+}
+
+.jobs h2 {
+  font-size: 28px;
+  color: #333;
+}
+
+.jobs ul {
+  list-style: none;
+  padding: 0;
+}
+
+.jobs li {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px 0;
+  background-color: #fff;
+}
+
+.jobs h3 {
+  font-size: 20px;
+  margin: 0;
+  color: #007bff;
+}
