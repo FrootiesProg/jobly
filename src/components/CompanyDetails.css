@@ -1,0 +1,19 @@
+
+.company-details button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.company-details button:hover {
+  background-color: #0069d9;
+}
+
+.applied{
+  background-color: orangered !important;
+}

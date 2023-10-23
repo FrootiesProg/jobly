@@ -9,6 +9,7 @@ form label {
   color: #333;
 }
 
+/* Consolidate input styles */
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
@@ -17,6 +18,17 @@ form input[type="password"] {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for a bit of depth */
+  transition: border-color 0.2s, box-shadow 0.2s; /* Smooth transitions */
+}
+
+/* Highlight input on focus */
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+  border-color: #007bff; /* Match button color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Darker shadow on focus */
+  outline: none; /* Remove default outline */
 }
 
 form button {
@@ -27,4 +39,23 @@ form button {
   padding: 10px 20px;
   font-size: 18px;
   cursor: pointer;
+  transition: background-color 0.2s; /* Smooth transition */
+}
+
+/* Darken button on hover */
+form button:hover {
+  background-color: #0056b3; /* Darker shade of blue */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"] {
+    font-size: 14px;
+  }
+
+  form button {
+    font-size: 16px;
+  }
 }

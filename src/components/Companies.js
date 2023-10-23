@@ -5,6 +5,7 @@ import "./Companies.css";
 
 function Companies() {
   const [companies, setCompanies] = useState([]);
+  const [jobs, setJobs] = useState([]); // Add a state for jobs
   const [searchTerm, setSearchTerm] = useState(""); // For filtering
 
   useEffect(() => {
@@ -12,8 +13,12 @@ function Companies() {
       try {
         const companiesData = await JoblyAPI.getCompanies(searchTerm);
         setCompanies(companiesData);
+
+        //  have a method to fetch all jobs
+        const jobsData = await JoblyAPI.getAllJobs();
+        setJobs(jobsData);
       } catch (error) {
-        console.error("Error fetching companies:", error);
+        console.error("Error fetching companies or jobs:", error);
       }
     }
 
@@ -22,6 +27,10 @@ function Companies() {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
+  };
+
+  const handleApply = (jobId) => {
+    // Implement the logic for applying to a job here
   };
 
   return (
@@ -40,9 +49,16 @@ function Companies() {
         {companies.map((company) => (
           <li key={company.id}>
             <h3>
-              <Link to={`/companies/${company.id}`}>{company.name}</Link>
+              <Link to={`/companies/${company.handle}`}>{company.name}</Link>
             </h3>
             <p>{company.description}</p>
+          </li>
+        ))}
+        {jobs.map((job) => (
+          <li key={job.id}>
+            <h4>{job.title}</h4>
+            <p>Salary: {job.salary}</p>
+            <p>{job.company}</p>
           </li>
         ))}
       </ul>

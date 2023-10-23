@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // Removed 'useEffect' import
+import React, { useState } from "react";
 import JoblyApi from "../api/api";
 
 function Profile({ user, onUpdate }) {
@@ -19,17 +19,12 @@ function Profile({ user, onUpdate }) {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      const updatedUser = await JoblyApi.updateProfile(formData);
-      onUpdate(updatedUser); // Update the user data in the parent component
-      // Optionally, you can show a success message
+      const updatedUser = await JoblyApi.saveProfile(user.username, formData);
+      onUpdate(updatedUser); 
     } catch (error) {
       setFormErrors(error);
     }
   };
-
-  if (!user) {
-    return <div>Loading...</div>; // Render a loading state or handle the absence of user data
-  }
 
   return (
     <div>

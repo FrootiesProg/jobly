@@ -1,13 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "./UserContext";
+import JoblyApi from "../api/api";
 import "./Navbar.css";
 
 function Navbar() {
-  const { state } = useUser();
+  const { state, dispatch } = useUser();
 
-  const handleLogout = () => {
-    // Handle user logout here
+  const handleLogout = async () => {
+    try {
+      await JoblyApi.logout();
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      dispatch({ type: "LOGOUT" });
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   let authLinks;

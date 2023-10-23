@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Jobs from "./Jobs";
 import JoblyApi from "../api/api";
+import "./AppliedJobs.css";
 
 function AppliedJobsContainer() {
   const [appliedJobs, setAppliedJobs] = useState(new Set());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [buttonPressed, setButtonPressed] = useState(false);
 
-  // Fetch applied jobs when the component mounts
+
   useEffect(() => {
     async function fetchAppliedJobs() {
       try {
@@ -24,16 +26,22 @@ function AppliedJobsContainer() {
     fetchAppliedJobs();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const handleButtonClick = () => {
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    setButtonPressed(!buttonPressed);
+  };
 
   return (
-    <div>
+    <div className="container">
+      <h2>Applied Jobs</h2>
+      <button
+        className={buttonPressed ? "pressed" : ""}
+        onClick={handleButtonClick}
+      >
+        Apply
+      </button>
+      {isLoading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
       <Jobs appliedJobs={appliedJobs} />
     </div>
   );

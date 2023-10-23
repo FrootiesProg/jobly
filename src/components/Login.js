@@ -1,82 +1,79 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Alert from "./Alert";
 import "./Login.css";
-import JoblyApi from "../api/api";
 
-function Login({ onLogin }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function LoginForm({ login }) {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
   const [formErrors, setFormErrors] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFormErrors([]);
-
-    try {
-      const loginData = {
-        username,
-        password,
-      };
-
-      const response = await JoblyApi.login(loginData);
-
-      if (response.success) {
-        // Call the `onLogin` callback with the user data after successful login
-        onLogin(response.user);
-      } else if (Array.isArray(response.errors)) {
-        // Check if errors is an array and not undefined
-        setFormErrors(response.errors);
-      } else if (response.message) {
-        // Handle other types of errors, like displaying a message
-        console.error("Error submitting login:", response.message);
-        setFormErrors([response.message]);
-      } else {
-        // Handle unexpected errors here
-        console.error("Error submitting login:", response);
-        setFormErrors(["An unexpected error occurred. Please try again."]);
-      }
-    } catch (error) {
-      // Handle API request error
-      console.error("Error submitting login:", error);
-      setFormErrors(["An unexpected error occurred. Please try again."]);
+  async function handleSubmit(evt) {
+    evt.preventDefault();
+    let result = await login(formData);
+    if (result.success) {
+      navigate.push("/companies");
+    } else {
+      setFormErrors(result.errors);
     }
-  };
+  }
+
+  function handleChange(evt) {
+    const { name, value } = evt.target;
+    setFormData((l) => ({ ...l, [name]: value }));
+  }
 
   return (
-    <div className="login">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {/* Display form errors, if any */}
-        {formErrors && formErrors.length > 0 && (
-          <div className="error-messages">
-            {formErrors.map((error, index) => (
-              <p key={index}>{error}</p>
-            ))}
+    <div className="LoginForm">
+      <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+        <h3 className="mb-3">Log In</h3>
+
+        <div className="card">
+          <div className="card-body">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Username</label>
+                <input
+                  name="username"
+                  className="form-control"
+                  value={formData.username}
+                  onChange={handleChange}
+                  autoComplete="username"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  value={formData.password}
+                  onChange={handleChange}
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+
+              {formErrors.length ? (
+                <Alert type="danger" messages={formErrors} />
+              ) : null}
+
+              <button
+                className="btn btn-primary float-right"
+                onSubmit={handleSubmit}
+              >
+                Submit
+              </button>
+            </form>
           </div>
-        )}
-        <button type="submit">Login</button>
-      </form>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Login;
+export default LoginForm;

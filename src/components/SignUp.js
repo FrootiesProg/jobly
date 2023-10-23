@@ -1,49 +1,50 @@
 import React, { useState } from "react";
 import JoblyApi from "../api/api";
-import { useUser } from "./UserContext"; // Import the UserContext
+import { useUser } from "./UserContext";
+import Alert from "./Alert";
 
-function SignUp() {
+function SignupForm() {
+  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState([]);
 
-  // Get the user state and dispatch function from the UserContext
-  const { dispatch } = useUser();
 
   const handleSubmit = async (e) => {
+    console.log("handleSubmit triggered"); 
     e.preventDefault();
-    // Clear any previous form errors
     setFormErrors([]);
 
-    try {
-      // Use the states to create a data object to send to the API
-      const userData = {
-        firstName,
-        lastName,
-        email,
-        password,
-      };
+    const userData = {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    };
 
-      // Call the API to submit the user registration
+    console.log("Data being sent to API:", userData);
+
+    try {
       const response = await JoblyApi.signup(userData);
 
-      // Handle success or show any form-specific errors
+      console.log("Response from API:", response); 
+
       if (response.success) {
-        // Save user data to local storage
-        localStorage.setItem("user", JSON.stringify(response.user));
-        // Dispatch the "LOGIN" action to update the user state
-        dispatch({ type: "LOGIN", user: response.user });
-        // Redirect or show a success message
+        console.log("Registration successful");
+        alert("Sign up successful. Please log in.");
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
       } else {
-        // Check if response.errors is an array, or provide an empty array as a default
         const errors = response.errors || [];
         setFormErrors(errors);
       }
     } catch (error) {
-      // Handle API request error
-      console.error("Error submitting registration:", error);
+      console.error("Error during signup submission:", error);
     }
   };
 
@@ -51,7 +52,6 @@ function SignUp() {
     <div>
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
-        {/* Input fields */}
         <div>
           <label htmlFor="firstName">First Name:</label>
           <input
@@ -71,6 +71,16 @@ function SignUp() {
           />
         </div>
         <div>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+
+        <div>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -88,20 +98,12 @@ function SignUp() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {
-          /* Display form errors, if any */
-          formErrors.length > 0 && (
-            <div className="error-messages">
-              {formErrors.map((error, index) => (
-                <p key={index}>{error}</p>
-              ))}
-            </div>
-          )
-        }
+
+        {formErrors.length > 0 && <Alert type="danger" messages={formErrors} />}
         <button type="submit">Sign Up</button>
       </form>
     </div>
   );
 }
 
-export default SignUp;
+export default SignupForm;

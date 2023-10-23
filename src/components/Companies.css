@@ -1,5 +1,4 @@
-/* Common styles for .jobs and .companies sections */
-.jobs,
+
 .companies {
   padding: 20px;
   background-color: #f8f8f8;
@@ -8,8 +7,7 @@
   margin: 20px;
 }
 
-/* Headings */
-.jobs h2,
+
 .companies h2 {
   font-size: 32px;
   color: #333;
@@ -17,28 +15,80 @@
   text-align: center;
 }
 
-/* List styles */
-.jobs ul,
-.companies ul {
+
+.search-bar {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.search-bar label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.search-bar input[type="text"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+
+ul {
   list-style: none;
   padding: 0;
 }
 
-/* List items */
-.jobs li,
-.companies li {
-  background-color: #fff;
-  border: 1px solid #ddd;
+li {
+
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Company/Job titles */
-.jobs h3,
-.companies h3 {
+
+li h3 {
   font-size: 24px;
-  color: #333;
+  color: #007bff;
   margin: 0;
+}
+
+
+li p {
+  font-size: 16px;
+  color: #555;
+  margin: 10px 0;
+}
+
+
+@media (max-width: 768px) {
+  .companies {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .companies h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .search-bar {
+    margin: 10px 0;
+  }
+
+  .search-bar label {
+    font-size: 16px;
+  }
+
+  li h3 {
+    font-size: 20px;
+  }
+
+  li p {
+    font-size: 14px;
+  }
 }

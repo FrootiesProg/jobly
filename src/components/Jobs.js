@@ -54,6 +54,7 @@ function Jobs() {
             <p>Salary: {job.salary}</p>
             <p>Company: {job.companyHandle}</p>
             <button
+              className={appliedJobs.has(job.id) ? "applied-button" : ""}
               onClick={() => handleApply(job.id)}
               disabled={appliedJobs.has(job.id)}
             >

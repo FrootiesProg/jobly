@@ -1,11 +1,11 @@
-// CompanyDetails.js
 import React, { useState, useEffect } from "react";
+import "./CompanyDetails.css";
 import JoblyAPI from "../api/api";
 
 function CompanyDetails({ companyId }) {
   const [company, setCompany] = useState({});
   const [jobs, setJobs] = useState([]);
-  const [appliedJobId, setAppliedJobId] = useState(null); // Track the applied job ID
+  const [appliedJobs, setAppliedJobs] = useState(new Set());
 
   useEffect(() => {
     async function fetchCompanyDetails() {
@@ -13,7 +13,7 @@ function CompanyDetails({ companyId }) {
         const companyData = await JoblyAPI.getCompany(companyId);
         setCompany(companyData);
 
-        const companyJobs = await JoblyAPI.getJobs();
+        const companyJobs = await JoblyAPI.getJobsForCompany(companyId);
         setJobs(companyJobs);
       } catch (error) {
         console.error("Error fetching company details:", error);
@@ -25,9 +25,13 @@ function CompanyDetails({ companyId }) {
 
   const handleApply = async (jobId) => {
     try {
-      const success = await JoblyAPI.applyToJob(companyId, jobId);
+      const success = await JoblyAPI.applyToJob(jobId);
       if (success) {
-        setAppliedJobId(jobId); // Update the applied job ID
+        setAppliedJobs((prevState) => {
+          const newAppliedJobs = new Set(prevState);
+          newAppliedJobs.add(jobId);
+          return newAppliedJobs;
+        });
       }
     } catch (error) {
       console.error("Error applying to job:", error);
@@ -44,16 +48,10 @@ function CompanyDetails({ companyId }) {
           <li key={job.id}>
             <h4>{job.title}</h4>
             <p>Salary: {job.salary}</p>
-            <p>{job.company}</p>
-            {appliedJobId === job.id ? (
-              <p>Applied</p>
+            {appliedJobs.has(job.id) ? (
+              <button className="applied">Applied</button>
             ) : (
-              <button
-                onClick={() => handleApply(job.id)}
-                disabled={appliedJobId !== null}
-              >
-                Apply
-              </button>
+              <button onClick={() => handleApply(job.id)}>Apply</button>
             )}
           </li>
         ))}

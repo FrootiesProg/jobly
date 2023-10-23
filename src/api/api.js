@@ -2057,45 +2057,45 @@ const mocks = {
  */
 
 class JoblyApi {
-  // the token for interactive with the API will be stored here.
+  // the token for interacting with the API will be stored here.
   // Individual API routes
 
   /** Get the current user. */
-
   static async getCurrentUser(username) {
     return mocks.user;
   }
 
   /** Get companies (filtered by name if not undefined) */
-
   static async getCompanies(name) {
     if (name) {
-      return mocks.companies.filter((c) => {
-        return c.name.toLocaleLowerCase().includes(name.toLocaleLowerCase());
-      });
+      return mocks.companies.filter((c) =>
+        c.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+      );
     }
     return mocks.companies;
   }
 
   /** Get details on a company by handle. */
-
   static async getCompany(handle) {
     return mocks.company;
   }
 
   /** Get list of jobs (filtered by title if not undefined) */
-
   static async getJobs(title) {
     if (title) {
-      return mocks.jobs.filter((c) => {
-        return c.title.toLocaleLowerCase().includes(title.toLocaleLowerCase());
-      });
+      return mocks.jobs.filter((c) =>
+        c.title.toLocaleLowerCase().includes(title.toLocaleLowerCase())
+      );
     }
     return mocks.jobs;
   }
 
-  /** Apply to a job */
+  /** Get list of jobs for a specific company */
+  static async getJobsForCompany(companyId) {
+    return mocks.jobs.filter((job) => job.companyId === companyId);
+  }
 
+  /** Apply to a job */
   static async applyToJob(username, id) {
     const oldApp = [...mocks.user.applications, id];
     mocks.user.applications = oldApp;
@@ -2103,19 +2103,16 @@ class JoblyApi {
   }
 
   /** Get token for login from username, password. */
-
   static async login(data) {
     return mocks.token;
   }
 
   /** Signup for site. */
-
   static async signup(data) {
     return mocks.token;
   }
 
   /** Save user profile page. */
-
   static async saveProfile(username, data) {
     console.log(data);
     mocks.user = {
